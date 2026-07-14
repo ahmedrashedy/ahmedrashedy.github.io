@@ -2,6 +2,8 @@
 
 Freelance services site for **Ahmed Rashedy Mohammed** — Odoo Project Manager & ERP Delivery Consultant.
 
+> Deployed via GitHub Actions on every push to `main`. Live at https://ahmedrashedy.github.io
+
 A static, single-page portfolio built to convert visitors into qualified project enquiries — not a CV dump. Every section is structured around the services I offer, how I deliver them, and where I have shipped them.
 
 Live: **https://ahmedrashedy.github.io**
