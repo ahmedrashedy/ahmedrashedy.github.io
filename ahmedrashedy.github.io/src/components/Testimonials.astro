@@ -1,0 +1,30 @@
+---
+import { site } from '../data/cv';
+---
+
+<section id="testimonials" class="section section-soft border-y border-border">
+  <div class="container-narrow">
+    <div class="reveal mb-14 max-w-2xl">
+      <p class="eyebrow">What Clients Say</p>
+      <h2 class="mt-4 h2 text-balance">A senior delivery partner — not just a contractor.</h2>
+      <p class="mt-4 text-sm text-slatey">Names withheld per client confidentiality. References available on request.</p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
+      {site.testimonials.map((t) => (
+        <figure class="reveal flex h-full flex-col rounded-xl border border-border bg-white p-6">
+          <svg class="h-7 w-7 text-sky/40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M9.17 6c-.5 1.4-1.17 3.3-1.17 5 0 1.93.93 3 2.5 3 1.6 0 2.5-1.1 2.5-2.5 0-1.66-1.34-3-3-3-.27 0-.5.05-.83.17V6zm10 0c-.5 1.4-1.17 3.3-1.17 5 0 1.93.93 3 2.5 3 1.6 0 2.5-1.1 2.5-2.5 0-1.66-1.34-3-3-3-.27 0-.5.05-.83.17V6zM4 18h16v2H4z"/>
+          </svg>
+          <blockquote class="mt-4 flex-1 text-[15px] leading-relaxed text-ink/85">
+            "{t.quote}"
+          </blockquote>
+          <figcaption class="mt-5 border-t border-border pt-4 text-xs">
+            <p class="font-semibold text-ink">{t.name}</p>
+            <p class="mt-0.5 text-slatey">{t.company}</p>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

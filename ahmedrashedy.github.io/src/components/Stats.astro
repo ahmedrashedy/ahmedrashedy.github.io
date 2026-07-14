@@ -1,0 +1,16 @@
+---
+import { site } from '../data/cv';
+---
+
+<section class="border-y border-border bg-white">
+  <div class="container-narrow py-12 sm:py-14">
+    <dl class="grid grid-cols-2 gap-y-8 sm:grid-cols-4">
+      {site.stats.map((stat, i) => (
+        <div class={`reveal flex flex-col items-start gap-1 ${i !== 0 ? 'sm:border-l sm:border-border sm:pl-8' : ''}`}>
+          <dt class="text-xs font-medium uppercase tracking-wider text-slatey">{stat.label}</dt>
+          <dd class="font-display text-3xl sm:text-4xl font-semibold text-ink">{stat.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

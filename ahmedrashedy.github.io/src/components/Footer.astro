@@ -1,0 +1,21 @@
+---
+import { site } from '../data/cv';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-white">
+  <div class="container-narrow py-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex items-center gap-2.5">
+      <span class="grid h-7 w-7 place-items-center rounded-md bg-ink text-[11px] font-semibold text-white">AR</span>
+      <p class="text-sm text-slatey">
+        © {year} {site.name}. Odoo delivery, from discovery to go-live.
+      </p>
+    </div>
+    <nav class="flex items-center gap-5 text-sm text-slatey">
+      <a href="#services" class="hover:text-ink">Services</a>
+      <a href="#portfolio" class="hover:text-ink">Portfolio</a>
+      <a href="#contact" class="hover:text-ink">Contact</a>
+      <a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-ink" aria-label="LinkedIn">LinkedIn</a>
+    </nav>
+  </div>
+</footer>

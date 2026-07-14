@@ -1,0 +1,46 @@
+---
+import { site } from '../data/cv';
+---
+
+<section id="top" class="relative overflow-hidden pt-32 sm:pt-40 lg:pt-44 pb-20">
+  <div class="pointer-events-none absolute inset-0 -z-10 grid-bg" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-gradient-to-b from-sky/10 via-transparent to-transparent" aria-hidden="true"></div>
+
+  <div class="container-narrow">
+    <div class="reveal flex flex-col items-start gap-8">
+      <div class="flex items-center gap-2 rounded-full border border-sky/30 bg-sky/5 px-3 py-1.5 text-xs font-medium text-sky-700">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky opacity-75"></span>
+          <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-sky"></span>
+        </span>
+        Accepting Q3 / Q4 engagements
+      </div>
+
+      <div class="space-y-6 max-w-4xl">
+        <h1 class="h1 text-balance">
+          {site.hero.promise}
+          <span class="block text-slatey mt-2 text-3xl sm:text-4xl lg:text-5xl font-medium leading-tight">
+            {site.hero.sub.split('—')[0]}
+            <span class="text-sky">— and shipped.</span>
+          </span>
+        </h1>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 pt-2">
+        <a href="#contact" class="btn-primary">
+          {site.hero.primaryCta}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a href="#services" class="btn-secondary">{site.hero.secondaryCta}</a>
+        <a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="btn-secondary !px-4" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

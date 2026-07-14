@@ -1,0 +1,241 @@
+---
+import { site } from '../data/cv';
+const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+---
+
+<section id="contact" class="section bg-soft border-t border-border">
+  <div class="container-narrow">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="reveal lg:col-span-5">
+        <p class="eyebrow">Start a Conversation</p>
+        <h2 class="mt-4 h2 text-balance">Tell me about your project.</h2>
+        <p class="mt-5 lede">
+          The more context you share — industry, modules of interest, current pain — the more useful our first call will be.
+        </p>
+
+        <ul class="mt-8 space-y-5">
+          <li class="flex items-start gap-3">
+            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-white text-sky-700 ring-1 ring-sky/20">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </span>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-slatey">Email</p>
+              <a href={`mailto:${site.email}`} class="mt-0.5 block font-medium text-ink hover:text-sky break-all">{site.email}</a>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-white text-sky-700 ring-1 ring-sky/20">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+            </span>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-slatey">WhatsApp</p>
+              <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" class="mt-0.5 block font-medium text-ink hover:text-sky">{site.phoneDisplay}</a>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-white text-sky-700 ring-1 ring-sky/20">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-slatey">LinkedIn</p>
+              <a href={site.linkedin} target="_blank" rel="noopener noreferrer" class="mt-0.5 block font-medium text-ink hover:text-sky break-all">in/ahmed-rashedy-mohammed</a>
+            </div>
+          </li>
+        </ul>
+
+        <div class="mt-10 rounded-xl border border-border bg-white p-5 text-xs leading-relaxed text-slatey">
+          <p class="font-semibold text-ink">What happens next?</p>
+          <p class="mt-1.5">Within 24 hours you'll get a reply with two or three proposed slots for a 30-min scoping call — no commitment, no sales pitch.</p>
+        </div>
+      </div>
+
+      <div class="reveal lg:col-span-7">
+        <form
+          action={`https://formspree.io/f/${FORMSPREE_ID}`}
+          method="POST"
+          class="space-y-5 rounded-xl border border-border bg-white p-6 sm:p-8 shadow-[0_8px_30px_-20px_rgba(11,37,69,0.15)]"
+          id="contact-form"
+          data-email={site.email}
+          data-subject="Project enquiry from ahmedrashedy.github.io"
+        >
+          <input type="hidden" name="_subject" value={site.name + ' — new enquiry via site'} />
+
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div>
+              <label for="name" class="block text-sm font-medium text-ink">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                autocomplete="name"
+                class="mt-1.5 block w-full rounded-md border border-border bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-slatey/60 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
+                placeholder="Your full name"
+              />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-ink">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                class="mt-1.5 block w-full rounded-md border border-border bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-slatey/60 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
+                placeholder="you@company.com"
+              />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div>
+              <label for="company" class="block text-sm font-medium text-ink">Company</label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                class="mt-1.5 block w-full rounded-md border border-border bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-slatey/60 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
+                placeholder="Optional"
+              />
+            </div>
+            <div>
+              <label for="interest" class="block text-sm font-medium text-ink">I'm interested in</label>
+              <select
+                id="interest"
+                name="interest"
+                class="mt-1.5 block w-full rounded-md border border-border bg-white px-3.5 py-2.5 text-sm text-ink focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
+              >
+                <option value="presales">Pre-Sales &amp; Scoping</option>
+                <option value="implementation">End-to-End Implementation</option>
+                <option value="optimization">Post-Go-Live Optimization</option>
+                <option value="consulting">Fractional ERP Leadership</option>
+                <option value="unsure">Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-medium text-ink">Tell me about your project</label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows="5"
+              class="mt-1.5 block w-full rounded-md border border-border bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-slatey/60 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
+              placeholder="Industry, current pain points, modules you're evaluating, timeline — anything that helps me prepare for our call."
+            ></textarea>
+          </div>
+          <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
+            <p class="text-xs text-slatey">Reply within 24 hours on business days.</p>
+            <div class="flex items-center gap-2">
+              <a
+                href={`mailto:${site.email}?subject=${encodeURIComponent('Project enquiry from ahmedrashedy.github.io')}`}
+                class="btn-secondary"
+              >
+                Email Me Directly
+              </a>
+              <button type="submit" class="btn-primary" id="submit-btn">
+                <span id="submit-label">Send Message</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p id="form-status" class="text-sm" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  const btn = document.getElementById('submit-btn') as HTMLButtonElement | null;
+  const label = document.getElementById('submit-label');
+  const select = document.getElementById('interest') as HTMLSelectElement | null;
+
+  function applyServiceFromUrl() {
+    const hash = window.location.hash;
+    if (!hash.startsWith('#contact')) return;
+    const queryIndex = hash.indexOf('?');
+    if (queryIndex === -1) return;
+    const params = new URLSearchParams(hash.slice(queryIndex + 1));
+    const service = params.get('service');
+    if (!service) return;
+    if (!select) return;
+    const option = Array.from(select.options).find((o) => o.value === service);
+    if (option) {
+      select.value = option.value;
+      setTimeout(() => {
+        const msg = document.getElementById('message');
+        if (msg instanceof HTMLTextAreaElement) msg.focus();
+      }, 700);
+    }
+  }
+
+  applyServiceFromUrl();
+  window.addEventListener('hashchange', applyServiceFromUrl);
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!btn || !status) return;
+
+    const endpoint = form.action;
+    const recipientEmail = form.dataset.email || '';
+    const subjectPrefix = form.dataset.subject || 'Project enquiry';
+
+    if (endpoint.includes('YOUR_FORMSPREE_ID')) {
+      const data = new FormData(form);
+      const interestLabel = (select?.options[select.selectedIndex]?.text) || '';
+      const body = [
+        `Name: ${data.get('name')}`,
+        `Email: ${data.get('email')}`,
+        `Company: ${data.get('company') || '-'}`,
+        `Interested in: ${interestLabel}`,
+        '',
+        'Message:',
+        data.get('message'),
+      ].join('\n');
+      const mailto = `mailto:${recipientEmail}?subject=${encodeURIComponent(subjectPrefix)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+      status.textContent = 'Opening your email client with a pre-filled message...';
+      status.className = 'text-sm text-sky-700';
+      return;
+    }
+
+    btn.disabled = true;
+    if (label) label.textContent = 'Sending...';
+    status.textContent = '';
+
+    try {
+      const data = new FormData(form);
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+
+      if (res.ok) {
+        status.textContent = 'Thanks — your message is on its way. I will reply within 24 hours.';
+        status.className = 'text-sm text-green-600';
+        form.reset();
+      } else {
+        throw new Error('Submit failed');
+      }
+    } catch {
+      status.textContent = 'Something went wrong. Please email me directly via the button above.';
+      status.className = 'text-sm text-red-600';
+    } finally {
+      btn.disabled = false;
+      if (label) label.textContent = 'Send Message';
+    }
+  });
+</script>

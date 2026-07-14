@@ -1,0 +1,82 @@
+---
+import { site } from '../data/cv';
+
+const icons: Record<string, string> = {
+  presales: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  implementation: '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>',
+  optimization: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+  consulting: '<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/>',
+};
+---
+
+<section id="services" class="section">
+  <div class="container-narrow">
+    <div class="reveal mb-14 max-w-2xl">
+      <p class="eyebrow">Services</p>
+      <h2 class="mt-4 h2 text-balance">Engagements that scale with you.</h2>
+      <p class="mt-5 lede">
+        From a 2-week discovery sprint to a 12-month multi-company rollout — every engagement is structured, scoped, and led end-to-end.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+      {site.services.map((s) => (
+        <a
+          href={`#contact?service=${s.key}`}
+          data-service={s.key}
+          class={`group reveal card-hover relative flex flex-col h-full no-underline ${s.featured ? 'ring-2 ring-sky/40 border-sky/30 bg-gradient-to-br from-white via-white to-sky/5' : ''}`}
+          aria-label={`Discuss the ${s.title} engagement — opens contact form`}
+        >
+          {s.featured && (
+            <span class="absolute -top-3 right-5 rounded-full bg-sky px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+              Most engaged
+            </span>
+          )}
+          <div class="flex items-start gap-4">
+            <div class={`grid h-11 w-11 shrink-0 place-items-center rounded-lg ${s.featured ? 'bg-sky text-white' : 'bg-sky/10 text-sky-700'} transition-colors group-hover:bg-sky group-hover:text-white`}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[s.key]} />
+            </div>
+            <div class="min-w-0 flex-1">
+              <h3 class="h3 text-lg sm:text-xl">{s.title}</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-slatey">{s.summary}</p>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slatey">What you get</p>
+            <ul class="mt-3 space-y-2 text-sm leading-relaxed text-slatey">
+              {s.deliverables.map((d) => (
+                <li class="flex items-start gap-2.5">
+                  <svg class="mt-1 h-3.5 w-3.5 shrink-0 text-sky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>{d}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-2 border-t border-border pt-5 text-xs">
+            <span class="font-medium text-ink">Engagement:</span>
+            <span class="pill-sky">{s.engagement}</span>
+          </div>
+
+          <div class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-sky-700 transition-colors group-hover:text-sky">
+            Discuss this engagement
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="reveal mt-10 flex flex-col items-start gap-3 rounded-xl border border-border bg-soft p-6 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-sm text-slatey">
+        Not sure which one fits? I will scope the right engagement in a 30-minute call.
+      </p>
+      <a href={`#contact?service=unsure`} class="btn-sky">Book a Scoping Call</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-white text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+  }
+
+  ::selection {
+    @apply bg-sky/20 text-ink;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-sky ring-offset-2 ring-offset-white rounded-sm;
+  }
+}
+
+@layer components {
+  .container-narrow {
+    @apply mx-auto w-full max-w-container px-6 sm:px-8 lg:px-10;
+  }
+
+  .section {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  .section-soft {
+    @apply bg-soft;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] uppercase text-sky-700;
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply h-px w-6 bg-sky;
+  }
+
+  .h1 {
+    @apply font-display font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-ink;
+  }
+
+  .h2 {
+    @apply font-display font-semibold text-3xl sm:text-4xl leading-tight tracking-tight text-ink;
+  }
+
+  .h3 {
+    @apply font-display font-semibold text-xl sm:text-2xl leading-snug text-ink;
+  }
+
+  .lede {
+    @apply text-lg sm:text-xl leading-relaxed text-slatey;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-medium transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply btn bg-ink text-white hover:bg-navy-700 shadow-[0_4px_14px_-6px_rgba(11,37,69,0.45)];
+  }
+
+  .btn-secondary {
+    @apply btn border border-border bg-white text-ink hover:border-ink hover:bg-soft;
+  }
+
+  .btn-sky {
+    @apply btn bg-sky text-white hover:bg-sky-600;
+  }
+
+  .card {
+    @apply rounded-xl border border-border bg-white p-6 transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:border-sky/40 hover:shadow-[0_8px_28px_-16px_rgba(13,51,89,0.25)] hover:-translate-y-0.5;
+  }
+
+  .pill {
+    @apply inline-flex items-center rounded-full border border-border bg-white px-2.5 py-0.5 text-xs font-medium text-slatey;
+  }
+
+  .pill-sky {
+    @apply inline-flex items-center rounded-full bg-sky/10 px-2.5 py-0.5 text-xs font-semibold text-sky-700;
+  }
+
+  .divider {
+    @apply h-px w-full bg-border;
+  }
+
+  .faq-item summary {
+    @apply flex cursor-pointer items-center justify-between gap-4 py-5 text-left font-medium text-ink list-none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    @apply hidden;
+  }
+
+  .faq-item[open] summary .icon {
+    @apply rotate-45;
+  }
+}
+
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    will-change: opacity, transform;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(11, 37, 69, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(11, 37, 69, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}

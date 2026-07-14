@@ -1,0 +1,27 @@
+---
+import { site } from '../data/cv';
+---
+
+<section id="process" class="section section-soft border-y border-border">
+  <div class="container-narrow">
+    <div class="reveal mb-14 max-w-2xl">
+      <p class="eyebrow">How I Work</p>
+      <h2 class="mt-4 h2 text-balance">A predictable delivery loop you can plan around.</h2>
+    </div>
+
+    <ol class="reveal grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {site.process.map((p) => (
+        <li class="relative rounded-xl border border-border bg-white p-6 transition-all hover:border-sky/40">
+          <span class="font-display text-4xl font-semibold text-sky/30">{p.step}</span>
+          <h3 class="mt-3 font-display text-lg font-semibold text-ink">{p.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slatey">{p.description}</p>
+          <div class="mt-5 flex flex-wrap gap-1.5">
+            {p.outputs.map((o) => (
+              <span class="pill">{o}</span>
+            ))}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
