@@ -164,7 +164,7 @@ Pushes to `main` trigger [`.github/workflows/deploy.yml`](./.github/workflows/de
    - `armmr-eg.com` → Apex alias / A records to GitHub Pages IPs (`185.199.108.153`, `.109.153`, `.110.153`, `.111.153`)
    - `www.armmr-eg.com` → CNAME to `<user>.github.io`
 
-   If your DNS is on Cloudflare (recommended when using Workers), proxy through Cloudflare for free.
+   If your DNS is on Cloudflare (recommended when using Workers), proxy through Cloudflare for free and skip the apex A records (Cloudflare handles it automatically).
 
 6. **Optional:** Add `PUBLIC_CONTACT_API_URL` as a GitHub Actions secret (Settings → Secrets and variables → Actions) and reference it in the workflow file. Otherwise the form posts to the placeholder URL in `src/data/cv.ts`.
 
