@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B2545"/>
+      <stop offset="100%" stop-color="#13315C"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3DA5D9"/>
+      <stop offset="100%" stop-color="#5DB6E2"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FFFFFF" stroke-width="0.5" stroke-opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <circle cx="1080" cy="120" r="180" fill="#3DA5D9" fill-opacity="0.15"/>
+  <circle cx="120" cy="540" r="140" fill="#3DA5D9" fill-opacity="0.08"/>
+
+  <g transform="translate(80, 100)">
+    <rect width="92" height="92" rx="20" fill="#FFFFFF"/>
+    <text x="46" y="62" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="700" fill="#0B2545" letter-spacing="-2">AR</text>
+  </g>
+
+  <g transform="translate(80, 230)">
+    <text font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="600" fill="#3DA5D9" letter-spacing="3">ODOO PROJECT MANAGER</text>
+    <text y="100" font-family="Inter Tight, Inter, sans-serif" font-size="76" font-weight="700" fill="#FFFFFF" letter-spacing="-2">Ahmed Rashedy</text>
+    <text y="160" font-family="Inter Tight, Inter, sans-serif" font-size="76" font-weight="700" fill="#FFFFFF" letter-spacing="-2">Mohammed</text>
+    <text y="250" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="400" fill="#FFFFFF" fill-opacity="0.75">Delivery & Business Transformation Specialist</text>
+  </g>
+
+  <g transform="translate(80, 540)">
+    <rect width="200" height="6" rx="3" fill="url(#accent)"/>
+    <text y="40" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#FFFFFF" fill-opacity="0.6">ahmedrashedy.github.io</text>
+  </g>
+</svg>

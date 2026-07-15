@@ -78,11 +78,11 @@
   }
 
   .card {
-    @apply rounded-xl border border-border bg-white p-6 transition-all duration-200;
+    @apply rounded-xl border border-border bg-white p-6;
   }
 
   .card-hover {
-    @apply card hover:border-sky/40 hover:shadow-[0_8px_28px_-16px_rgba(13,51,89,0.25)] hover:-translate-y-0.5;
+    @apply card transition-[border-color,box-shadow] duration-200 hover:border-sky/40 hover:shadow-[0_8px_28px_-16px_rgba(13,51,89,0.25)];
   }
 
   .pill {
@@ -112,15 +112,28 @@
 
 @layer utilities {
   .reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .js .reveal {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity 0.7s ease-out, transform 0.7s ease-out;
     will-change: opacity, transform;
   }
 
-  .reveal.is-visible {
+  .js .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   .text-balance {

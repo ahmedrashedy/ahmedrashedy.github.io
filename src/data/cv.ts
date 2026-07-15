@@ -4,7 +4,7 @@ export const site = {
   role: 'Odoo Project Manager & ERP Delivery Consultant',
   tagline: 'I help businesses implement Odoo end-to-end — from discovery to go-live and beyond.',
   location: 'Cairo, Egypt',
-  email: 'ahmedrashedv001@gmail.com',
+  email: 'ahmedrashedy001@gmail.com',
   phone: '+201122079077',
   phoneDisplay: '+20 112 207 9077',
   whatsapp: 'https://wa.me/201122079077',
