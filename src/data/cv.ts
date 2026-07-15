@@ -13,7 +13,7 @@ export const site = {
   calendly: '#contact',
   ctaLabel: 'Book a Discovery Call',
 
-  contactApiUrl: import.meta.env.PUBLIC_CONTACT_API_URL || 'https://api.armmr-eg.workers.dev',
+  contactApiUrl: import.meta.env.PUBLIC_CONTACT_API_URL || 'https://api.armmr-eg.com',
 
   hero: {
     promise: 'Odoo projects, delivered.',

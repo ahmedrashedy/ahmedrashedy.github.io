@@ -1,6 +1,9 @@
 name = "armmr-eg-contact-form"
+account_id = "9223b50cceccccdd1412838597f76054"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
+workers_dev = false
+routes = [{ pattern = "api.armmr-eg.com", custom_domain = true }]
 
 [vars]
 ALLOWED_ORIGIN = "https://armmr-eg.com"
@@ -10,5 +13,5 @@ FROM_EMAIL = "Ahmed Rashedy <onboarding@resend.dev>"
 [observability]
 enabled = true
 
-# Secrets (set via `wrangler secret put RESEND_API_KEY`):
-#   RESEND_API_KEY = your_resend_api_key
+# Secrets (set via `wrangler secret put RESEND_API_KEY_AHMED_RASHEDY`):
+#   RESEND_API_KEY_AHMED_RASHEDY = your_RESEND_API_KEY_AHMED_RASHEDY

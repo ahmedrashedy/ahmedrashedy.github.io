@@ -58,7 +58,7 @@ This opens a browser window to authorize Wrangler against your Cloudflare accoun
 ### 2. Set the Resend API key as a secret (never commit it)
 
 ```bash
-npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put RESEND_API_KEY_AHMED_RASHEDY
 # paste your `re_xxxxxxxxxx` key when prompted
 ```
 
@@ -94,7 +94,7 @@ Set via `wrangler.toml` `[vars]` (committed) or `wrangler secret put` (private):
 
 | Name | Visibility | Example | Purpose |
 |---|---|---|---|
-| `RESEND_API_KEY` | **secret** | `re_abc...` | Resend API key (server only) |
+| `RESEND_API_KEY_AHMED_RASHEDY` | **secret** | `re_abc...` | Resend API key (server only) |
 | `FROM_EMAIL` | var | `Ahmed Rashedy <onboarding@resend.dev>` | Sender shown to recipient |
 | `TO_EMAIL` | var | `ahmedrashedy001@gmail.com` | Inbox that receives submissions |
 | `ALLOWED_ORIGIN` | var | `https://armmr-eg.com` | CORS allow-list (single origin) |
