@@ -1,6 +1,7 @@
 ---
 import { site } from '../data/cv';
 const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+const FORM_ACTION = `https://formsubmit.co/ajax/${site.email}`;
 ---
 
 <section id="contact" class="section bg-soft border-t border-border">
@@ -58,14 +59,16 @@ const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
 
       <div class="reveal lg:col-span-7">
         <form
-          action={`https://formspree.io/f/${FORMSPREE_ID}`}
+          action={FORM_ACTION}
           method="POST"
           class="space-y-5 rounded-xl border border-border bg-white p-6 sm:p-8 shadow-[0_8px_30px_-20px_rgba(11,37,69,0.15)]"
           id="contact-form"
           data-email={site.email}
-          data-subject="Project enquiry from ahmedrashedy.github.io"
         >
-          <input type="hidden" name="_subject" value={site.name + ' — new enquiry via site'} />
+          <input type="hidden" name="_subject" value={`New enquiry: ahmedrashedy.github.io — {{interest}}`} />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_autoresponse" value="Thanks for reaching out — I'll reply within 24 hours. — Ahmed" />
 
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
@@ -123,11 +126,11 @@ const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
               name="interest"
               class="mt-1.5 block w-full rounded-md border border-border bg-white px-3.5 py-2.5 text-sm text-ink focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink"
             >
-              <option value="presales">Pre-Sales &amp; Scoping</option>
-              <option value="implementation">End-to-End Implementation</option>
-              <option value="optimization">Post-Go-Live Optimization</option>
-              <option value="consulting">Fractional ERP Leadership</option>
-              <option value="unsure">Not sure yet</option>
+              <option value="Pre-Sales &amp; Scoping">Pre-Sales &amp; Scoping</option>
+              <option value="End-to-End Implementation">End-to-End Implementation</option>
+              <option value="Post-Go-Live Optimization">Post-Go-Live Optimization</option>
+              <option value="Fractional ERP Leadership">Fractional ERP Leadership</option>
+              <option value="Not sure yet">Not sure yet</option>
             </select>
           </div>
           <div>
@@ -141,34 +144,18 @@ const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
               placeholder="Industry, current pain points, modules you're evaluating, timeline — anything that helps me prepare for our call."
             ></textarea>
           </div>
-          <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
             <p class="text-xs text-slatey">Reply within 24 hours on business days.</p>
-            <div class="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-              <a
-                href={`mailto:${site.email}?subject=${encodeURIComponent('Project enquiry from ahmedrashedy.github.io')}`}
-                class="btn-secondary text-center"
-                title="Opens your default mail app with a pre-filled message"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-                <span class="flex flex-col items-start leading-tight">
-                  <span class="text-xs font-medium">Open Mail App</span>
-                  <span class="text-[10px] text-slatey font-normal">(uses your default mail client)</span>
-                </span>
-              </a>
-              <button type="submit" class="btn-primary" id="submit-btn">
-                <span id="submit-label">Send Message</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <line x1="22" y1="2" x2="11" y2="13"></line>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-              </button>
-            </div>
+            <button type="submit" class="btn-primary w-full sm:w-auto" id="submit-btn">
+              <span id="submit-label">Send Message</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
           </div>
           <p class="text-[11px] text-slatey/80">
-            <span class="font-semibold text-ink">Send Message</span> posts via this site (recommended). <span class="font-semibold text-ink">Open Mail App</span> opens your mail client directly. Both reach the same inbox.
+            Sending submits directly to <span class="font-medium text-ink">{site.email}</span>. No signup, no mail client — just a reply.
           </p>
           <p id="form-status" class="text-sm" aria-live="polite"></p>
         </form>
@@ -193,7 +180,15 @@ const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
     const service = params.get('service');
     if (!service) return;
     if (!select) return;
-    const option = Array.from(select.options).find((o) => o.value === service);
+    const map: Record<string, string> = {
+      presales: 'Pre-Sales & Scoping',
+      implementation: 'End-to-End Implementation',
+      optimization: 'Post-Go-Live Optimization',
+      consulting: 'Fractional ERP Leadership',
+      unsure: 'Not sure yet',
+    };
+    const label = map[service] || map.presales;
+    const option = Array.from(select.options).find((o) => o.text.trim() === label);
     if (option) {
       select.value = option.value;
       setTimeout(() => {
@@ -210,56 +205,46 @@ const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
     e.preventDefault();
     if (!btn || !status) return;
 
-    const endpoint = form.action;
-    const recipientEmail = form.dataset.email || '';
-    const subjectPrefix = form.dataset.subject || 'Project enquiry';
-
-    if (endpoint.includes('YOUR_FORMSPREE_ID')) {
-      const data = new FormData(form);
-      const interestLabel = (select?.options[select.selectedIndex]?.text) || '';
-      const phone = String(data.get('phone') || '').trim() || '-';
-      const body = [
-        `Name: ${data.get('name')}`,
-        `Email: ${data.get('email')}`,
-        `Phone: ${phone}`,
-        `Company: ${data.get('company') || '-'}`,
-        `Interested in: ${interestLabel}`,
-        '',
-        'Message:',
-        data.get('message'),
-      ].join('\n');
-      const mailto = `mailto:${recipientEmail}?subject=${encodeURIComponent(subjectPrefix)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailto;
-      status.textContent = 'Opening your mail app with a pre-filled message...';
-      status.className = 'text-sm text-sky-700';
-      return;
-    }
+    const originalLabel = label?.textContent || 'Send Message';
 
     btn.disabled = true;
     if (label) label.textContent = 'Sending...';
     status.textContent = '';
+    status.className = 'text-sm text-slatey';
 
     try {
       const data = new FormData(form);
-      const res = await fetch(endpoint, {
+      const interestRaw = data.get('interest');
+      const interest = typeof interestRaw === 'string' ? interestRaw : '';
+      const res = await fetch(form.action, {
         method: 'POST',
         body: data,
         headers: { Accept: 'application/json' },
       });
 
       if (res.ok) {
-        status.textContent = 'Thanks — your message is on its way. I will reply within 24 hours.';
-        status.className = 'text-sm text-green-600';
-        form.reset();
+        const json = await res.json().catch(() => null);
+        if (json && (json.success === 'true' || json.success === true || json.message)) {
+          status.textContent = `Message sent. Check ${form.dataset.email} for a confirmation.`;
+          status.className = 'text-sm text-green-600 font-medium';
+          form.reset();
+        } else {
+          status.textContent = 'Thanks — your message is on its way. I will reply within 24 hours.';
+          status.className = 'text-sm text-green-600 font-medium';
+          form.reset();
+        }
+      } else if (res.status === 404 || res.status === 400) {
+        status.textContent = 'Form not yet activated. First-time setup required — check your email inbox for an activation link from formsubmit.co.';
+        status.className = 'text-sm text-amber-600';
       } else {
-        throw new Error('Submit failed');
+        throw new Error(`HTTP ${res.status}`);
       }
     } catch {
-      status.textContent = 'Something went wrong. Please use the Open Mail App button instead.';
+      status.innerHTML = `Something went wrong. If this persists, email me directly: <a class="font-medium text-sky underline" href="mailto:${form.dataset.email}">${form.dataset.email}</a>`;
       status.className = 'text-sm text-red-600';
     } finally {
       btn.disabled = false;
-      if (label) label.textContent = 'Send Message';
+      if (label) label.textContent = originalLabel;
     }
   });
 </script>

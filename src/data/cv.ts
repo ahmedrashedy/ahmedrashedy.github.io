@@ -213,6 +213,7 @@ export const site = {
       'PMP-aligned delivery practices across every engagement',
       'Bridge between business stakeholders, functional teams, and developers',
       'Hands-on with complex integrations and multi-company set-ups',
+      'AI-augmented delivery — using modern AI tools to accelerate discovery, sharpen specifications, and ship higher-quality outcomes on tighter timelines',
     ],
   },
 

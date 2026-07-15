@@ -1,5 +1,7 @@
 ---
 import { site } from '../data/cv';
+
+const aiIdx = site.about.differentiators.findIndex((d) => d.toLowerCase().includes('ai-augmented'));
 ---
 
 <section id="about" class="section">
@@ -10,19 +12,38 @@ import { site } from '../data/cv';
         <h2 class="mt-4 h2 text-balance">
           The senior PM your team will actually want in the room.
         </h2>
+        <p class="mt-5 text-[15px] leading-relaxed text-slatey">
+          AI-augmented delivery has been part of how I work for years — used to make engagements sharper, faster, and more transparent, while keeping senior judgment in the driver's seat.
+        </p>
+        <div class="mt-6 inline-flex items-center gap-2 rounded-full border border-sky/30 bg-sky/5 px-3 py-1.5 text-xs font-medium text-sky-700">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2L9.5 7.5 4 9l4 4-1 6 5-2.5L17 19l-1-6 4-4-5.5-1.5z"/>
+          </svg>
+          Higher output · Sharper docs · Faster discovery
+        </div>
       </div>
       <div class="lg:col-span-7 space-y-5">
         <p class="text-base sm:text-lg leading-relaxed text-slatey">{site.about.intro}</p>
 
         <ul class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {site.about.differentiators.map((d) => (
-            <li class="flex items-start gap-3 rounded-lg border border-border bg-soft p-4">
-              <svg class="mt-0.5 h-4 w-4 shrink-0 text-sky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-              <span class="text-sm leading-relaxed text-ink">{d}</span>
-            </li>
-          ))}
+          {site.about.differentiators.map((d, i) => {
+            const isAi = i === aiIdx;
+            return (
+              <li class={`flex items-start gap-3 rounded-lg border p-4 transition-colors ${
+                isAi
+                  ? 'border-sky/30 bg-sky/5 ring-1 ring-sky/20 col-span-1 sm:col-span-2'
+                  : 'border-border bg-soft'
+              }`}>
+                <svg class={`mt-0.5 h-4 w-4 shrink-0 ${isAi ? 'text-sky' : 'text-sky'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span class="text-sm leading-relaxed text-ink">
+                  {isAi && <span class="font-semibold text-sky-700 mr-1">NEW · </span>}
+                  {d}
+                </span>
+              </li>
+            );
+          })}
         </ul>
 
         <div class="pt-6">
