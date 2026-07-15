@@ -16,14 +16,18 @@ const links = [
   <div class="container-narrow flex h-16 items-center justify-between">
     <a href="#top" class="flex items-center gap-2.5 font-display font-semibold tracking-tight text-ink">
       <span class="grid h-9 w-9 place-items-center overflow-hidden rounded-full bg-ink ring-2 ring-white shadow-sm">
-        <img
-          src="/brand/avatar-portrait.png"
-          alt="Ahmed Rashedy"
-          class="h-full w-full object-cover"
-          loading="eager"
-          width="36"
-          height="36"
-        />
+        <picture>
+          <source srcset="/brand/avatar-portrait.webp" type="image/webp" />
+          <img
+            src="/brand/avatar-portrait.png"
+            alt="Ahmed Rashedy"
+            class="h-full w-full object-cover"
+            loading="eager"
+            width="36"
+            height="36"
+            decoding="async"
+          />
+        </picture>
       </span>
       <span class="hidden sm:inline">Ahmed Rashedy</span>
     </a>
