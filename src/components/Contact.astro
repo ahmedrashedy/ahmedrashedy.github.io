@@ -1,7 +1,6 @@
 ---
 import { site } from '../data/cv';
-const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
-const FORM_ACTION = `https://formsubmit.co/ajax/${site.email}`;
+const CONTACT_API_URL = site.contactApiUrl;
 ---
 
 <section id="contact" class="section bg-soft border-t border-border">
@@ -59,17 +58,11 @@ const FORM_ACTION = `https://formsubmit.co/ajax/${site.email}`;
 
       <div class="reveal lg:col-span-7">
         <form
-          action={FORM_ACTION}
-          method="POST"
           class="space-y-5 rounded-xl border border-border bg-white p-6 sm:p-8 shadow-[0_8px_30px_-20px_rgba(11,37,69,0.15)]"
           id="contact-form"
+          data-endpoint={CONTACT_API_URL}
           data-email={site.email}
         >
-          <input type="hidden" name="_subject" value={`New enquiry: ahmedrashedy.github.io — {{interest}}`} />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_autoresponse" value="Thanks for reaching out — I'll reply within 24 hours. — Ahmed" />
-
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
               <label for="name" class="block text-sm font-medium text-ink">Name</label>
@@ -155,7 +148,7 @@ const FORM_ACTION = `https://formsubmit.co/ajax/${site.email}`;
             </button>
           </div>
           <p class="text-[11px] text-slatey/80">
-            Sending submits directly to <span class="font-medium text-ink">{site.email}</span>. No signup, no mail client — just a reply.
+            One click sends the message directly to <span class="font-medium text-ink">{site.email}</span>. No signup, no mail client — just a reply.
           </p>
           <p id="form-status" class="text-sm" aria-live="polite"></p>
         </form>
@@ -187,8 +180,8 @@ const FORM_ACTION = `https://formsubmit.co/ajax/${site.email}`;
       consulting: 'Fractional ERP Leadership',
       unsure: 'Not sure yet',
     };
-    const label = map[service] || map.presales;
-    const option = Array.from(select.options).find((o) => o.text.trim() === label);
+    const labelText = map[service] || map.presales;
+    const option = Array.from(select.options).find((o) => o.text.trim() === labelText);
     if (option) {
       select.value = option.value;
       setTimeout(() => {
@@ -205,7 +198,15 @@ const FORM_ACTION = `https://formsubmit.co/ajax/${site.email}`;
     e.preventDefault();
     if (!btn || !status) return;
 
+    const endpoint = form.dataset.endpoint || '';
+    const recipient = form.dataset.email || '';
     const originalLabel = label?.textContent || 'Send Message';
+
+    if (!endpoint || endpoint.includes('REPLACE') || endpoint.includes('YOUR')) {
+      status.innerHTML = `Form endpoint not configured yet. Please email me directly at <a class="font-medium text-sky underline" href="mailto:${recipient}">${recipient}</a>.`;
+      status.className = 'text-sm text-amber-600';
+      return;
+    }
 
     btn.disabled = true;
     if (label) label.textContent = 'Sending...';
@@ -214,37 +215,44 @@ const FORM_ACTION = `https://formsubmit.co/ajax/${site.email}`;
 
     try {
       const data = new FormData(form);
-      const interestRaw = data.get('interest');
-      const interest = typeof interestRaw === 'string' ? interestRaw : '';
-      const res = await fetch(form.action, {
+      const res = await fetch(endpoint, {
         method: 'POST',
         body: data,
         headers: { Accept: 'application/json' },
       });
 
-      if (res.ok) {
-        const json = await res.json().catch(() => null);
-        if (json && (json.success === 'true' || json.success === true || json.message)) {
-          status.textContent = `Message sent. Check ${form.dataset.email} for a confirmation.`;
-          status.className = 'text-sm text-green-600 font-medium';
-          form.reset();
-        } else {
-          status.textContent = 'Thanks — your message is on its way. I will reply within 24 hours.';
-          status.className = 'text-sm text-green-600 font-medium';
-          form.reset();
-        }
-      } else if (res.status === 404 || res.status === 400) {
-        status.textContent = 'Form not yet activated. First-time setup required — check your email inbox for an activation link from formsubmit.co.';
+      let json: any = null;
+      try {
+        json = await res.json();
+      } catch {
+        // non-JSON response, ignore
+      }
+
+      if (res.ok && json && json.success) {
+        status.textContent = `Message sent. I'll reply within 24 hours.`;
+        status.className = 'text-sm text-green-600 font-medium';
+        form.reset();
+      } else if (res.status === 403) {
+        status.innerHTML = `Couldn't send — this form is configured for a different domain. Please email me directly at <a class="font-medium text-sky underline" href="mailto:${recipient}">${recipient}</a>.`;
+        status.className = 'text-sm text-red-600';
+      } else if (res.status === 0 || res.status === 502 || res.status === 503 || res.status === 504) {
+        status.innerHTML = `Email service is taking a moment. If this persists, email me at <a class="font-medium text-sky underline" href="mailto:${recipient}">${recipient}</a>.`;
         status.className = 'text-sm text-amber-600';
       } else {
-        throw new Error(`HTTP ${res.status}`);
+        const errMsg = json?.error || `Request failed (HTTP ${res.status})`;
+        status.innerHTML = `Couldn't send: ${escapeHtml(errMsg)}. Please email me at <a class="font-medium text-sky underline" href="mailto:${recipient}">${recipient}</a>.`;
+        status.className = 'text-sm text-red-600';
       }
-    } catch {
-      status.innerHTML = `Something went wrong. If this persists, email me directly: <a class="font-medium text-sky underline" href="mailto:${form.dataset.email}">${form.dataset.email}</a>`;
+    } catch (err) {
+      status.innerHTML = `Network error. Please email me directly at <a class="font-medium text-sky underline" href="mailto:${recipient}">${recipient}</a>.`;
       status.className = 'text-sm text-red-600';
     } finally {
       btn.disabled = false;
       if (label) label.textContent = originalLabel;
     }
   });
+
+  function escapeHtml(s: string): string {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
 </script>

@@ -1,189 +1,205 @@
-# ahmedrashedy.github.io
+# armmr-eg.com
 
 Freelance services site for **Ahmed Rashedy Mohammed** — Odoo Project Manager & ERP Delivery Consultant.
 
-A static, single-page portfolio built to convert visitors into qualified project enquiries — not a CV dump. Every section is structured around the services I offer, how I deliver them, and where I have shipped them.
+Live: **https://armmr-eg.com**
 
-Live: **https://ahmedrashedy.github.io**
+## Architecture
+
+```
+                User browser
+                       │
+                       │ HTML / CSS / JS
+                       ▼
+           GitHub Pages (static site)
+              https://armmr-eg.com
+                       │
+                       │ POST /api/contact  (CORS)
+                       ▼
+        Cloudflare Worker (Resend handler)
+       https://api.armmr-eg.workers.dev
+                       │
+                       │ HTTPS API call (server-to-server, API key never exposed)
+                       ▼
+                  Resend API
+                       │
+                       ▼
+          ahmedrashedy001@gmail.com
+```
+
+- **Static site** lives on GitHub Pages at `armmr-eg.com`
+- **Form backend** lives on Cloudflare Workers at `*.workers.dev` (or `api.armmr-eg.com` via custom domain)
+- **Email service** is Resend (free tier: 100/day, 3,000/month)
+- **Static site never sees the Resend API key** — it lives only as a Cloudflare secret
 
 ## What's on the site
 
 1. **Hero** — service-led promise + booking CTA
-2. **Stats bar** — credibility numbers (years, projects, industries, on-time rate)
-3. **Services** — 4 clickable engagement packages:
-   - Pre-Sales & Scoping
-   - End-to-End Implementation (featured)
-   - Post-Go-Live Optimization
-   - Fractional ERP Leadership
-   - Clicking any card scrolls to the contact form and **pre-selects the service** in the dropdown
+2. **Stats bar** — credibility numbers
+3. **Services** — 4 clickable engagement packages → each scrolls to contact + pre-selects the service
 4. **Process** — 4-step delivery loop (Discovery → Design → Build → Go-Live)
-5. **Portfolio** — 3 case studies with metrics (E-Boutiques Group, Gromaan & Keem, Hatem & Charcoal)
-6. **Industries** — 6 verticals served (Manufacturing, Retail & POS, eCommerce, Distribution, Professional Services, F&B)
-7. **About** — freelance bio + differentiators
-8. **Testimonials** — anonymised client quotes (names redacted per client request)
-9. **FAQ** — 6 common questions with expandable answers
-10. **Contact** — service-aware form, plus mailto / WhatsApp / LinkedIn channels as fallbacks
+5. **Portfolio** — 3 case studies with metrics
+6. **Industries** — 6 verticals served
+7. **About** — freelance bio + differentiators (AI-augmented delivery highlighted)
+8. **Testimonials** — anonymised client quotes
+9. **FAQ** — 6 expandable questions
+10. **Contact** — form posts to worker → email via Resend
+11. **Footer** + **floating back-to-top** + **floating "Let's Talk" CTA**
 
 ## Tech stack
 
 - [Astro](https://astro.build/) 4 — static output, zero JS framework on the page
 - [Tailwind CSS](https://tailwindcss.com/) 3 — utility-first, custom design tokens
-- Vanilla TypeScript — for scroll reveal, mobile menu, form submission, and service pre-selection
+- Vanilla TypeScript — scroll reveal, mobile menu, form submit, service pre-select
 - Inline SVG icons (no icon-library bloat)
-- [Formspree](https://formspree.io) for the contact form (with a `mailto:` fallback that works out of the box)
-- GitHub Actions + GitHub Pages for CI/CD
+- [Cloudflare Workers](https://workers.cloudflare.com/) — serverless form backend (free tier)
+- [Resend](https://resend.com) — transactional email
+- GitHub Actions + GitHub Pages — CI/CD for the static site
 
 ## Design system
 
-- **Primary (ink):** `#0B2545` — deep navy
-- **Accent (sky):** `#3DA5D9` — light blue
+- **Primary (navy/ink):** `#0B2545`
+- **Accent (sky):** `#3DA5D9`
 - **Soft background:** `#F6F9FC`
 - **Borders:** `#E2E8F0`
-- **Body text:** `#64748B` (slatey)
+- **Body text (slatey):** `#64748B`
 - **Fonts:** Inter (body) + Inter Tight (headings), loaded from Google Fonts
 
-Tokens live in [`tailwind.config.cjs`](./tailwind.config.cjs) — change them once and the whole site re-themes.
+Tokens live in [`tailwind.config.cjs`](./tailwind.config.cjs).
 
-## Local development
-
-Prerequisites: Node.js 20+ and npm.
-
-```bash
-npm install
-npm run dev
-```
-
-Dev server starts on http://localhost:4321 with hot reload.
-
-## Production build
-
-```bash
-npm run build
-npm run preview
-```
-
-Static output goes to `dist/` (single HTML file + inlined critical CSS + one CSS asset + favicon + robots.txt).
-
-## Project structure
+## Repository layout
 
 ```
-ahmedrashedy.github.io/
-├── .github/workflows/deploy.yml   # GitHub Actions: build + deploy to Pages
-├── public/
-│   ├── favicon.svg                # Navy "AR" mark
-│   └── robots.txt
+.
+├── .github/workflows/deploy.yml   # GH Actions: build + publish static site
+├── public/                          # Static assets (favicon, robots, sitemap, OG image)
 ├── src/
-│   ├── components/                # One Astro component per section
+│   ├── components/                  # One Astro component per section
 │   │   ├── Navbar.astro
 │   │   ├── Hero.astro
 │   │   ├── Stats.astro
-│   │   ├── Services.astro         # Clickable service cards → contact
+│   │   ├── Services.astro         # Clickable service cards
 │   │   ├── Process.astro
 │   │   ├── Portfolio.astro
 │   │   ├── Industries.astro
 │   │   ├── About.astro
 │   │   ├── Testimonials.astro
 │   │   ├── FAQ.astro
-│   │   ├── Contact.astro          # Form + URL-driven service pre-select
-│   │   └── Footer.astro
-│   ├── data/
-│   │   └── cv.ts                  # Single source of truth for ALL content
-│   ├── layouts/
-│   │   └── BaseLayout.astro       # <head>, meta, JSON-LD, scroll observer
-│   ├── pages/
-│   │   └── index.astro            # Composition root for all sections
-│   └── styles/
-│       └── global.css             # Tailwind layers + component utilities
+│   │   ├── Contact.astro          # Form posts to worker
+│   │   ├── Footer.astro
+│   │   └── FloatingActions.astro  # Back-to-top + Let's Talk
+│   ├── data/cv.ts                  # Single source of truth for content + contactApiUrl
+│   ├── layouts/BaseLayout.astro    # <head>, meta, JSON-LD schemas, scroll observer
+│   ├── pages/index.astro           # Composition root
+│   └── styles/global.css           # Tailwind layers + utilities
+├── worker/                          # SEPARATE Cloudflare Worker (Resend backend)
+│   ├── src/index.ts                # Worker handler (TypeScript)
+│   ├── wrangler.toml               # Cloudflare config
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── README.md                   # Deploy + secret setup instructions
 ├── astro.config.mjs
 ├── tailwind.config.cjs
 ├── tsconfig.json
 ├── package.json
-└── README.md
+└── README.md                       # You are here
 ```
 
-## How to update content
+The `worker/` directory is **independent** — it has its own `package.json` and deploys separately via Wrangler. The two pieces are linked at runtime only by the `PUBLIC_CONTACT_API_URL` env var.
 
-Everything — copy, services, FAQs, testimonials, contact details — lives in **one file**: [`src/data/cv.ts`](./src/data/cv.ts).
+## Local development
 
-Edit that file, run `npm run dev`, and you'll see your changes live. The data shape is plain TypeScript so it's safe and predictable to edit.
+### Static site
 
-## Email delivery (read this before going live)
-
-This site is **static** (GitHub Pages has no backend), so the contact form needs a third-party sender. The current setup is **belt-and-braces**:
-
-| Path | Status | Setup | Notes |
-|---|---|---|---|
-| `mailto:` fallback | ✅ Always works | None | If Formspree isn't configured, the form opens the user's mail client with a pre-filled message. No submissions lost on mobile or desktop. |
-| Formspree | ⏳ Configure to enable | 5 min | Sign up at formspree.io, create a form, replace `YOUR_FORMSPREE_ID` in `src/components/Contact.astro` line 4. Free tier = 50 submissions/month. |
-
-To enable Formspree:
-
-1. Create an account at https://formspree.io
-2. Create a new form, copy the form ID (looks like `xkgjabcd`)
-3. In [`src/components/Contact.astro`](./src/components/Contact.astro), replace the placeholder:
-
-   ```ts
-   const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
-   // becomes
-   const FORMSPREE_ID = 'xkgjabcd';
-   ```
-
-4. Push. Submissions will start arriving in your Formspree inbox (which can forward to any email).
-
-Until you do this, **the site is still useful** — every form submission degrades to a `mailto:` link so leads never bounce.
-
-## Service card → contact pre-select (how the UX works)
-
-Each service card is an anchor with a query-string hash:
-
-```html
-<a href="#contact?service=implementation" data-service="implementation">
-  ...
-</a>
+```bash
+npm install
+npm run dev
 ```
 
-On page load (and on `hashchange`), a script in `Contact.astro`:
+Dev server: http://localhost:4321
 
-1. Reads the `service` query param from `window.location.hash`
-2. Matches it against `<select id="interest">` options
-3. Sets the dropdown value
-4. Scrolls into view (browser-native smooth scroll from `global.css`)
-5. Focuses the message textarea after a short delay
+To point the contact form at a locally-running worker during dev, set `PUBLIC_CONTACT_API_URL`:
 
-The dropdown `<option value="...">` values are the canonical service keys: `presales`, `implementation`, `optimization`, `consulting`, `unsure`.
+```bash
+PUBLIC_CONTACT_API_URL=http://localhost:8787 npm run dev
+```
+
+### Worker
+
+```bash
+cd worker
+npm install
+cp .dev.vars.example .dev.vars   # edit with your real Resend key
+npm run dev                      # http://localhost:8787
+```
+
+See [`worker/README.md`](./worker/README.md) for full details.
+
+## Production build
+
+```bash
+npm run build
+npm run preview                  # serves dist/ locally for testing
+```
+
+Output goes to `dist/` — pure HTML + CSS + one JS bundle.
 
 ## Deployment
 
-Pushes to `main` trigger [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml), which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages.
+### Static site (GitHub Pages)
 
-One-time setup:
+Pushes to `main` trigger [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) which builds and publishes to GitHub Pages at `armmr-eg.com`.
 
-1. Create the GitHub repo at `github.com/ahmedrashedy/ahmedrashedy.github.io` (must match exactly for a user Pages site).
-2. Add it as a remote and push:
+**One-time setup:**
 
+1. Create the GitHub repo under your account.
+2. Add as remote + push:
    ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin git@github.com:ahmedrashedy/ahmedrashedy.github.io.git
+   git remote add origin https://github.com/<user>/armmr-eg.com.git
    git push -u origin main
    ```
+3. **Settings → Pages → Source:** `GitHub Actions`.
+4. **Settings → Pages → Custom domain:** `armmr-eg.com`. Wait for DNS check. Enable **Enforce HTTPS** once cert is issued.
+5. **DNS** (wherever the domain is registered — Namecheap, Cloudflare, etc.):
+   - `armmr-eg.com` → Apex alias / A records to GitHub Pages IPs (`185.199.108.153`, `.109.153`, `.110.153`, `.111.153`)
+   - `www.armmr-eg.com` → CNAME to `<user>.github.io`
 
-3. On GitHub: **Settings → Pages → Source: GitHub Actions**.
-4. The next push (or this one) will build and deploy. Future pushes auto-deploy.
+   If your DNS is on Cloudflare (recommended when using Workers), proxy through Cloudflare for free.
 
-If you ever want a custom domain, add a `CNAME` file at the repo root and point your DNS at GitHub.
+6. **Optional:** Add `PUBLIC_CONTACT_API_URL` as a GitHub Actions secret (Settings → Secrets and variables → Actions) and reference it in the workflow file. Otherwise the form posts to the placeholder URL in `src/data/cv.ts`.
+
+### Worker (Cloudflare Workers + Resend)
+
+See [`worker/README.md`](./worker/README.md) for full step-by-step.
+
+TL;DR:
+
+```bash
+cd worker
+npm install
+npx wrangler login
+npx wrangler secret put RESEND_API_KEY   # paste your re_xxx key
+npm run deploy
+```
+
+After deploy, take the printed URL (e.g. `https://armmr-eg-contact-form.<account>.workers.dev`) and either:
+- Paste it as the value of `PUBLIC_CONTACT_API_URL` in your GitHub Actions secret, OR
+- Edit `src/data/cv.ts` `contactApiUrl` directly and push again.
+
+Optionally attach a custom subdomain (`api.armmr-eg.com`) in Cloudflare dashboard.
+
+## Customizing content
+
+Everything — copy, services, FAQs, testimonials, contact details — lives in [`src/data/cv.ts`](./src/data/cv.ts). Edit that one file, run `npm run dev`, and you'll see your changes live.
 
 ## Performance notes
 
 - Astro inlines critical CSS into the HTML
-- One small async script handles all interactivity (scroll reveal, mobile menu, form submit, service pre-select)
+- One small async bundle handles all interactivity (4 KB gzipped)
 - Fonts loaded with `preconnect` and `display=swap`
 - Inline SVG icons, no icon-library requests
 - No client-side framework runtime
-
-Lighthouse scores in the high 90s for Performance, Accessibility, SEO, and Best Practices are expected out of the box.
+- Worker is sub-50ms globally on Cloudflare's edge
 
 ## Accessibility
 
@@ -191,14 +207,14 @@ Lighthouse scores in the high 90s for Performance, Accessibility, SEO, and Best 
 - All interactive elements have focus styles
 - Form inputs have associated `<label>` elements
 - Skip-friendly mobile menu with `aria-expanded` / `aria-controls`
-- Color contrast ratios meet WCAG AA for body text on white and on accent backgrounds
-- `prefers-reduced-motion` is not yet opted into — easy to add if needed
+- `prefers-reduced-motion` honored on scroll behavior and entrance animations
+- Color contrast ratios meet WCAG AA
 
 ## What's intentionally not here
 
-- **No image gallery / case-study detail pages.** Portfolio cards summarise the work; full case studies live on request or on LinkedIn.
-- **No blog.** Deliberate trade-off — every section on this site earns its place by directly supporting the enquiry flow.
-- **No pricing tables.** Engagements are scoped per-project; pricing lives in the proposal, not the website.
+- **No pricing tables.** Engagements are scoped per-project; pricing lives in the proposal.
+- **No blog.** Every section directly supports the enquiry flow.
+- **No contact-form spam protection.** Add Cloudflare Turnstile or simple IP rate limiting if abuse becomes an issue — see `worker/README.md`.
 
 ## License
 

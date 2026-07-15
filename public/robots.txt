@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ahmedrashedy.github.io/sitemap.xml
+Sitemap: https://armmr-eg.com/sitemap.xml

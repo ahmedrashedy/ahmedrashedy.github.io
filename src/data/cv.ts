@@ -13,6 +13,8 @@ export const site = {
   calendly: '#contact',
   ctaLabel: 'Book a Discovery Call',
 
+  contactApiUrl: import.meta.env.PUBLIC_CONTACT_API_URL || 'https://api.armmr-eg.workers.dev',
+
   hero: {
     promise: 'Odoo projects, delivered.',
     sub: 'Discovery, scoping, and end-to-end implementation for Manufacturing, Retail, and eCommerce — led by a senior PM with 6+ years and 20+ implementations across 3M EGP budgets.',
